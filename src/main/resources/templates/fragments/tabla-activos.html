@@ -1,0 +1,62 @@
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head">
+    <meta charset="UTF-8">
+    <title>Virgilio</title>
+    <link rel="stylesheet" th:href="@{/css/botones.css}" />
+    <link rel="stylesheet" th:href="@{/css/tabla-activos.css}" />
+</head>
+
+<body>
+<div class="tabla-contenedor" th:fragment="tabla(historial, esHistorial)">
+    <table class="tabla-activos">
+        <thead>
+            <tr>
+                <th class="celda-encabezado columna-nombre">Nombre</th>
+                <th class="celda-encabezado">Desde</th>
+                <th th:if="${esHistorial}" class="celda-encabezado">Hasta</th>
+                <th class="celda-encabezado">HH:mm Transcurridos</th>
+                <th class="celda-encabezado">Estado</th>
+                <th th:if="${!esHistorial}" class="celda-encabezado">Historial</th>
+            </tr>
+        </thead>
+        <tbody class="tabla-scroll">
+            <tr th:each="activo, stat : ${historial}"
+                th:class="${stat.index % 2 == 0} ? 'fila-par' : 'fila-impar fila-transicion'">
+
+                <td th:text="${activo.descriptionSinLlaves}" class="celda-cuerpo columna-nombre" ></td>
+                <td th:text="${activo.initialDateFormateada}" class="celda-cuerpo" ></td>
+                <td th:if="${esHistorial}" th:text="${activo.finalDateFormateada}" class="celda-cuerpo"></td>
+                <td th:text="${activo.tiempoTranscurrido}" class="celda-cuerpo" ></td>
+
+                <td class="celda-cuerpo">
+                    <span th:if="${activo.final_date == null}">
+
+                        <!-- ícono de X -->
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="red" stroke-width="2" width="16" height="16">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </span>
+                    <span th:if="${activo.final_date != null}" title="Reparado">
+                        <!-- ícono de check -->
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="green" stroke-width="2" width="16" height="16">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                        </svg>
+                    </span>
+                </td>
+
+                <td th:if="${!esHistorial}" class="celda-cuerpo">
+                    <a th:href="@{/ct/virgilio/inoperativos(code=${activo.code})}" title="Ver historial">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                             stroke-width="1.5" stroke="currentColor"
+                             style="width: 24px; height: 24px;">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M12 6v6l4 2m6-2a10 10 0 11-20 0 10 10 0 0120 0z"/>
+                        </svg>
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

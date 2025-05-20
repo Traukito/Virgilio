@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/base :: head"></head>
+
+<body style="background-color: #e2e2e2; color: #7a7a7a; margin: 0; padding: 0; display: flex; flex-direction: column; height: 100vh;">
+
+<!-- Header -->
+<div th:replace="layout/base :: header"></div>
+
+<!-- Barra superior contiene div con formulario para historial y contenedor de cantidad de Activos FS
+     e inserta el contenedor correspondiente en caso que fuer historial o no fuera historial
+     Para discriminar cuál mostrar, desde aquí se le envía el boolean ${esHistorial}-->
+<div th:replace="fragments/barra-superior :: barraSuperior(${totalFueraDeServicio}, ${esHistorial})"></div>
+
+<!-- Contenido principal: tabla -->
+<div style="flex: 1;">
+  <div th:replace="fragments/tabla-activos :: tabla(${historial}, ${esHistorial})"></div>
+</div>
+
+<!-- Footer -->
+<div th:replace="layout/base :: footer" style="flex-shrink: 0;"></div>
+
+</body>
+</html>

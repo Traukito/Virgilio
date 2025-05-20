@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+    <head th:fragment="head">
+        <meta charset="UTF-8">
+        <link rel="stylesheet" th:href="@{/css/botones.css}" />
+        <link rel="stylesheet" th:href="@{/css/tabla-activos.css}" />
+        <link rel="stylesheet" th:href="@{/css/barra-superior.css}">
+        <title>Virgilio</title>
+    </head>
+
+    <body>
+    <header th:fragment="header">
+
+        <div style="background-color: #3B82F6; padding: 0.5rem 1.4rem;
+                    display: flex; justify-content: space-between;
+                    align-items: center; margin-bottom: 5rem">
+
+            <!-- Título a la izquierda -->
+            <h1 style="
+              color: #ffffff;
+              font-size: 2.3rem;
+              font-weight: 400;
+              margin: 0;
+              font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+              letter-spacing: 2.0px;
+              text-transform: uppercase;
+              text-shadow: 3px 4px 10px rgba(0, 0, 0, 0.75);
+              ">Virgilio
+            </h1>
+
+
+            <!-- Ítems de navegación a la derecha -->
+            <nav style="display: flex; gap: 1.5rem;">
+                <a href="#" style="color: white; text-decoration: none; font-weight: bold; transition: color 0.3s;"
+                   onmouseover="this.style.color='#dbeafe'" onmouseout="this.style.color='white'">
+                    Inactivos
+                </a>
+                <a href="#" style="color: white; text-decoration: none; font-weight: bold; transition: color 0.3s;"
+                   onmouseover="this.style.color='#dbeafe'" onmouseout="this.style.color='white'">
+                    Historial
+                </a>
+                <a href="#" style="color: white; text-decoration: none; font-weight: bold; transition: color 0.3s;"
+                   onmouseover="this.style.color='#dbeafe'" onmouseout="this.style.color='white'">
+                    Salir
+                </a>
+            </nav>
+            </nav>
+        </div>
+    </header>
+
+    <footer th:fragment="footer">
+            <hr>
+            <p style="text-align: center;">&copy; Corteza Tech 2025</p>
+        </footer>
+
+    </body>
+
+</html>
+

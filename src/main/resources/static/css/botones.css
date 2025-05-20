@@ -1,0 +1,50 @@
+/* =======================================
+   Botón principal: Azul elegante
+   ======================================= */
+.btn {
+  background-color: #3B82F6;              /* Azul elegante de base */
+  color: #ffffff;                         /* Texto blanco para máximo contraste */
+  padding: 0.5rem 1.2rem;                 /* Espaciado interno cómodo */
+  border: 2px solid transparent;          /* Borde inicial invisible para transicionar */
+  border-radius: 0.4rem;                  /* Bordes ligeramente redondeados para suavidad */
+  font-size: 1rem;                        /* Tamaño de fuente estándar */
+  font-weight: 500;                       /* Peso medio para legibilidad */
+  cursor: pointer;                        /* Cursor de clic para interactividad */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);/* Sombra sutil que da profundidad */
+
+  /* Transiciones suaves y elegantes para múltiples propiedades */
+  transition:
+    background-color 0.35s ease,         /* Transición de color de fondo */
+    border-color 0.35s ease,             /* Transición de borde */
+    box-shadow 0.35s ease,               /* Transición de sombra */
+    filter 0.35s ease;                   /* Transición de brillo */
+}
+
+/* ===============================
+   Hover: Color, borde y sombra
+   =============================== */
+.btn:hover {
+  background-color: #1D4ED8;             /* Azul más oscuro y sofisticado */
+  border-color: #93C5FD;                 /* Borde azul claro: elegante y sutil */
+  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3); /* Sombra más envolvente */
+  filter: brightness(1.03);              /* Ligeramente más brillante para dinamismo */
+  /* NO usamos transform, para que el botón NO se mueva */
+}
+
+/* ===============================
+   Activo: Al presionar el botón
+   =============================== */
+.btn:active {
+  background-color: #1E3A8A;             /* Azul más profundo como feedback visual */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);/* Sombra más contenida */
+  /* No se mueve para mantener coherencia visual */
+}
+
+/* ===============================
+   Enfoque: Accesibilidad visible
+   =============================== */
+.btn:focus {
+  outline: none;                         /* Eliminamos el contorno por defecto */
+  border-color: #60A5FA;                 /* Borde claro elegante al enfocar */
+  box-shadow: 0 0 0 4px rgba(96, 165, 250, 0.5); /* Anillo externo suave y accesible */
+}

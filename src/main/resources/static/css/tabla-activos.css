@@ -1,0 +1,127 @@
+/* =======================
+   CONTENEDOR PRINCIPAL
+   ======================= */
+.tabla-contenedor {
+  width: 98%;               /* La tabla ocupará el 98% del ancho del contenedor padre. Puedes cambiar este valor si deseas más o menos margen lateral. */
+  margin: 0 auto;           /* Centra el contenedor horizontalmente. "auto" divide el espacio sobrante a la izquierda y derecha. */
+  border: 1px solid #ccc;   /* Aplica un borde gris claro (color hexadecimal #ccc) de 1 píxel alrededor del contenedor. */
+  overflow-x: auto;         /* Si el contenido de la tabla es más ancho que el contenedor, aparece una barra de desplazamiento horizontal. */
+  border-radius: 0.5rem;    /* LE prporciona un borde redondeado sutíl al contenedor de la tabla (y a la tabla)
+}
+
+/* =======================
+   ESTILO GENERAL DE LA TABLA
+   ======================= */
+.tabla-activos {
+  background-color: #fff;   /* Color de fondo blanco para toda la tabla. */
+  border-spacing: 0;        /* Elimina los espacios entre las celdas si usas `border-collapse: separate`. No afecta si `collapse`. */
+  width: 100%;              /* La tabla usará todo el ancho disponible dentro de su contenedor. */
+  border-collapse: collapse;/* Fusiona los bordes de las celdas para que no se dupliquen, típico estilo moderno de tabla. */
+}
+
+/* =======================
+   ENCABEZADO FIJO
+   ======================= */
+.tabla-activos thead th {
+  position: sticky;           /* Hace que el encabezado se quede fijo en la parte superior mientras haces scroll. */
+  top: 0;                     /* Indica que el borde superior del encabezado estará pegado al tope del contenedor. */
+  background-color: #3B82F6;  /* Color de fondo azul para la fila del encabezado. Puedes cambiarlo a otro color si quieres. */
+  color: #fff;                /* Color del texto en el encabezado: blanco. */
+  z-index: 10;                /* Eleva el encabezado por encima de otros elementos, útil cuando haces scroll. */
+  padding: 8px;               /* Espaciado interno de 8 píxeles dentro de cada celda de encabezado. */
+  border-bottom: 2px solid #2563eb; /* Línea azul más oscura bajo el encabezado para separarlo visualmente del cuerpo. */
+  text-align: center;         /* Centra el texto en todas las celdas del encabezado por defecto. */
+}
+
+/* =======================
+   CELDAS DEL CUERPO DE LA TABLA
+   ======================= */
+.celda-cuerpo {
+  padding: 8px;               /* Espaciado interno de 8 píxeles dentro de cada celda del cuerpo. */
+  border-bottom: 1px solid #ddd; /* Línea gris clara entre filas. Ayuda a separar visualmente los datos. */
+  text-align: center;         /* Centra el contenido dentro de las celdas por defecto. */
+}
+
+/* Celdas de la columna "Nombre" con texto alineado a la izquierda */
+td.columna-nombre {
+  text-align: left;
+  padding-left: 1rem;
+}
+
+/* =======================
+   COLORES DE FILAS ALTERNAS
+   ======================= */
+.fila-par {
+  background-color: #ffffff;  /* Fondo blanco para las filas pares (0, 2, 4...). */
+}
+
+.fila-impar {
+  background-color: #f0f0f0;  /* Fondo gris claro para las filas impares (1, 3, 5...). Ayuda a leer la tabla más fácilmente. */
+}
+
+
+/* =======================
+   EFECTO HOVER (al pasar el cursor)
+   ======================= */
+.fila-par:hover,
+.fila-impar:hover {
+  background-color: #d9eaf7;  /* Cambia el fondo a un azul claro cuando el cursor pasa sobre una fila. */
+  color: #333333;             /* Cambia el color del texto a un gris oscuro. */
+  /* cursor: pointer;            /* Muestra el puntero en forma de mano para indicar que es interactiva. */
+}
+
+/* =======================
+   TRANSICIÓN SUAVE AL HACER HOVER
+   ======================= */
+.fila-transicion {
+  transition: background-color 0.3s ease, color 0.3s ease;
+  /* Hace que los cambios de color de fondo y texto ocurran suavemente en 0.3 segundos. */
+}
+
+/* =======================
+   CONTENEDOR SCROLL PARA EL CUERPO
+   ======================= */
+.tabla-scroll {
+  max-height: 14rem;          /* Altura máxima del contenedor del cuerpo: 20 "rem" (rem = unidad relativa al tamaño de fuente). */
+  overflow-y: auto;           /* Activa el scroll vertical si el contenido sobrepasa el alto. */
+  display: block;             /* Necesario para que el contenedor funcione correctamente con scroll. */
+}
+
+/* =======================
+   AJUSTES PARA TABLAS DENTRO DE "tabla-scroll"
+   ======================= */
+.tabla-scroll table {
+  width: 100%;                /* Asegura que la tabla dentro del contenedor de scroll use todo el ancho disponible. */
+  max-height: 15rem;
+  border-collapse: collapse;  /* Aplica el mismo estilo colapsado de bordes para coherencia visual. */
+}
+
+/* =======================
+   ESTRUCTURA DE LA TABLA
+   ======================= */
+.tabla-activos thead,
+.tabla-activos tbody,
+.tabla-activos tr {
+  display: table;             /* Muestra estos elementos como verdaderas tablas, necesario para alinear bien columnas. */
+  width: 100%;                /* Todos los elementos usarán el 100% del ancho del contenedor padre. */
+  table-layout: fixed;        /* Fija el ancho de las columnas, para que no se ajusten dinámicamente según el contenido. */
+}
+
+/* =======================
+   NECESARIO PARA HACER SCROLL SOLO AL BODY
+   ======================= */
+.tabla-activos tbody {
+  display: block;             /* Convierte el cuerpo de la tabla en un bloque independiente para que tenga scroll separado. */
+}
+
+/* =======================
+   ANCHO PERSONALIZADO PARA COLUMNA "Nombre"
+   ======================= */
+.columna-nombre {
+  width: 40%;                 /* Ocupa el 50% del ancho total de la tabla. Útil para descripciones largas. */
+  min-width: 25rem;           /* Establece un ancho mínimo en unidades relativas al tamaño de fuente (~400px). Evita que se encoja demasiado. */
+}
+
+
+
+

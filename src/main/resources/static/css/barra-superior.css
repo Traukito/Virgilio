@@ -1,0 +1,129 @@
+/* --------------------------------------------
+   Estilos para la barra superior de una página
+   -------------------------------------------- */
+
+/* Este es el contenedor general de la barra superior.
+   Con 'sticky', esta barra se quedará fija en la parte superior
+   del viewport mientras haces scroll hacia abajo. */
+.barra-superior {
+  position: sticky; /* Hace que el elemento se quede "pegado" en una posición específica al hacer scroll */
+  top: 0; /* La posición sticky empieza cuando el elemento llega al top (0 píxeles del borde superior) */
+  background-color: #e2e2e2; /* Color de fondo gris claro para distinguir visualmente la barra */
+  padding: 0.2rem; /* Un pequeño espacio interno para que el contenido no quede pegado a los bordes */
+  z-index: 100; /* Se asegura de que la barra quede por encima de otros elementos en caso de que se superpongan */
+}
+
+/* Este contenedor organiza el contenido horizontalmente */
+.contenedor-principal {
+  display: flex; /* Flexbox para alinear los elementos hijos horizontalmente */
+  justify-content: space-between; /* Coloca un elemento a la izquierda y otro a la derecha */
+  align-items: stretch; /* Estira los elementos hijos para que todos tengan la misma altura */
+  margin: 0.5rem 1rem; /* Margen externo (arriba/abajo 0.5rem, izquierda/derecha 1rem) */
+  gap: 1rem; /* Espacio entre los elementos hijos */
+}
+
+/* Bloque del lado izquierdo de la barra */
+.bloque-izquierdo {
+  flex: 1; /* Hace que este bloque crezca para ocupar todo el espacio disponible */
+  text-align: left; /* Alinea el contenido de texto hacia la izquierda */
+}
+
+/* Contenedor que puede estar mostrando información de un campo específico (ej. full screen) */
+.contenedor-total-fs {
+  display: flex; /* Flexbox para alinear elementos hijos horizontalmente */
+  align-items: center; /* Centra verticalmente los hijos dentro del contenedor */
+  justify-content: flex-start; /* Alinea los elementos al inicio del contenedor (izquierda) */
+  gap: 0.5rem; /* Espacio horizontal entre los elementos hijos */
+  background-color: #f9fafb; /* Un blanco casi imperceptible para dar contraste sutil */
+  padding: 0.75rem 1rem; /* Espaciado interno arriba/abajo 0.75rem, izquierda/derecha 1rem */
+  border-radius: 0.5rem; /* Bordes redondeados para suavizar el diseño */
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05); /* Sombra suave para dar un efecto de profundidad */
+  height: 2.5rem; /* Altura fija para mantener proporciones consistentes */
+}
+
+/* Etiqueta de información importante, posiblemente un nombre de campo o etiqueta clave */
+.etiqueta-fs {
+  background-color: #F43F5E; /* Azul brillante (tailwind blue-500) */
+  color: white; /* Texto en blanco para contrastar con el fondo azul */
+  padding: 0 1rem; /* Espaciado horizontal dentro del elemento */
+  border-radius: 0.4rem; /* Bordes redondeados para suavizar la visual */
+  font-size: 1rem; /* Tamaño de letra legible y estándar */
+  font-weight: 500; /* Peso medio para hacer el texto ligeramente más fuerte */
+  font-family: inherit; /* Usa la misma fuente que el contenedor padre */
+  display: flex; /* Permite alinear el contenido (texto o íconos) horizontalmente */
+  align-items: center; /* Centra verticalmente el contenido */
+  height: 2.5rem; /* Coincide con la altura del contenedor para alineación perfecta */
+  white-space: nowrap; /* Evita que el texto se divida en varias líneas */
+}
+
+/* Elemento que muestra el valor de la etiqueta */
+.valor-fs {
+  margin-left: 0.5rem; /* Se separa un poco del elemento anterior (la etiqueta) */
+}
+
+/* Bloque de contenido alineado al lado derecho de la barra */
+.bloque-derecho {
+  /* width: 28rem; */ /* Comentado posiblemente para pruebas. Puedes usarlo si prefieres una barra más estrecha. */
+  width: 40rem; /* Ancho fijo del bloque derecho: 40rem (bastante amplio) */
+  text-align: right; /* Alinea el contenido interno hacia la derecha */
+}
+
+/* Formulario pequeño que puede contener campos como código o fecha */
+.formulario-codigo {
+  display: flex; /* Flexbox para acomodar los elementos horizontalmente */
+  align-items: center; /* Alineación vertical centrada */
+  justify-content: flex-end; /* Alinea los elementos hacia la derecha */
+  gap: 0.5rem; /* Espacio horizontal entre campos */
+  background-color: #f9fafb; /* Mismo fondo claro suave */
+  padding: 0.75rem 1rem; /* Espaciado interno cómodo */
+  border-radius: 0.5rem; /* Bordes redondeados */
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05); /* Sombra ligera */
+  height: 2.5rem; /* Altura uniforme para todos los formularios */
+}
+
+/* Campo de entrada principal (probablemente un código) */
+.input-codigo {
+  padding: 0.5rem 1rem; /* Espaciado interno cómodo para clics y lectura */
+  font-size: 1rem; /* Tamaño de letra legible */
+  border: 1px solid #d1d5db; /* Borde gris claro para distinguir el campo */
+  border-radius: 0.4rem; /* Bordes redondeados para una mejor estética */
+  background-color: #ffffff; /* Fondo blanco */
+  color: #374151; /* Color de texto gris oscuro para buena legibilidad */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08); /* Ligera sombra para resaltar el campo */
+  outline: none; /* Remueve el borde azul por defecto en navegadores */
+  transition: all 0.2s ease; /* Suaviza cambios visuales al enfocar */
+  width: 35rem; /* Campo ancho para introducir textos largos */
+}
+
+/* Campo para seleccionar o ingresar una fecha */
+.input-fecha {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.4rem;
+  background-color: #ffffff;
+  color: #374151;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  outline: none;
+  transition: all 0.2s ease;
+  width: 16rem; /* Más estrecho que el de código, ya que una fecha ocupa menos espacio */
+}
+
+/* Estilos cuando el campo de código está enfocado (activo) */
+.input-codigo:focus {
+  border-color: #3B82F6; /* Cambia el color del borde a azul (tailwind blue-500) */
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3); /* Añade un "resplandor" azul alrededor del campo */
+}
+
+/* Estilos cuando el campo de fecha está enfocado (activo) */
+ .input-fecha:focus {
+   border-color: #3B82F6; /* Cambia el color del borde a azul (tailwind blue-500) */
+   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3); /* Añade un "resplandor" azul alrededor del campo */
+ }
+
+
+/* Botón o link para volver al historial (posiblemente en el margen inferior) */
+.volver-historial {
+  text-align: left; /* Alinea el contenido hacia la izquierda */
+  margin-left: 0.8rem; /* Da un pequeño espacio desde el borde izquierdo */
+}
