@@ -64,7 +64,7 @@
 /* Bloque de contenido alineado al lado derecho de la barra */
 .bloque-derecho {
   /* width: 28rem; */ /* Comentado posiblemente para pruebas. Puedes usarlo si prefieres una barra más estrecha. */
-  width: 40rem; /* Ancho fijo del bloque derecho: 40rem (bastante amplio) */
+  width: 48.5rem; /* Ancho fijo del bloque derecho: 40rem (bastante amplio) */
   text-align: right; /* Alinea el contenido interno hacia la derecha */
 }
 
@@ -120,4 +120,43 @@
    border-color: #3B82F6; /* Cambia el color del borde a azul (tailwind blue-500) */
    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3); /* Añade un "resplandor" azul alrededor del campo */
  }
+
+ /* Botón de refrescar dentro del filtro de fechas.
+    Utiliza estilo elegante y coherente con el resto del sistema.
+    Incluye ícono SVG y se alinea junto al botón 'Buscar'. */
+ .btn {
+   background-color: #2563EB; /* Azul elegante */
+   color: white;
+   border: none;
+   padding: 0.5rem 1rem;
+   border-radius: 0.4rem;
+   font-size: 1rem;
+   cursor: pointer;
+   display: flex;
+   align-items: center;
+   gap: 0.3rem;
+   transition: background-color 0.2s ease;
+ }
+
+ .btn:hover {
+   background-color: #1E40AF; /* Azul más oscuro al pasar el mouse */
+ }
+
+ /* Contenedor para agrupar botón refrescar + formulario de fechas */
+ .contenedor-fechas-botones {
+   display: flex;
+   align-items: center;       /* Alineación vertical centrada */
+   justify-content: flex-end; /* Alineación hacia la derecha */
+   gap: 0.5rem;               /* Espaciado horizontal entre elementos */
+   height: 2.5rem;            /* Altura uniforme para consistencia visual */
+ }
+
+ /* Ajuste específico al formulario de fechas para que sea compacto */
+ .formulario-fechas {
+   display: flex;
+   align-items: center;
+   gap: 0.5rem;
+ }
+
+
 
