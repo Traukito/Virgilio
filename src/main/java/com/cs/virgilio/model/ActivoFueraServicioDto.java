@@ -18,6 +18,9 @@ public class ActivoFueraServicioDto {
 
     @JsonIgnore
     private String tiempoTranscurrido;
+    // ActivoFueraServicioDto.java
+    private String tiempoEnRango; // formato "HH:mm"
+
 
     public String getInitialDateFormateada() {
         try {

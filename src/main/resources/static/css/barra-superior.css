@@ -121,9 +121,3 @@
    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3); /* Añade un "resplandor" azul alrededor del campo */
  }
 
-
-/* Botón o link para volver al historial (posiblemente en el margen inferior) */
-.volver-historial {
-  text-align: left; /* Alinea el contenido hacia la izquierda */
-  margin-left: 0.8rem; /* Da un pequeño espacio desde el borde izquierdo */
-}

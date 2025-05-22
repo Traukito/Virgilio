@@ -13,8 +13,8 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 
-import java.time.Duration;
-import java.time.OffsetDateTime;
+import java.time.*;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 
 @RequiredArgsConstructor
@@ -33,7 +33,6 @@ public class HistorialFueraServicioService {
             List<ActivoFueraServicioDto> datos = procesarHistorial(code, responseDto);
 
             datos.sort(Comparator.comparing(dto -> OffsetDateTime.parse(dto.getInitial_date()), Comparator.reverseOrder()));
-
             return Optional.of(datos);
 
         } catch (HttpClientErrorException.NotFound e) {
@@ -64,42 +63,139 @@ public class HistorialFueraServicioService {
         return datos;
     }
 
-
-
-
-
     public Optional<TotalTiempoFueraServicioDto> obtenerHistorialYTotalTiempoPorActivo(String code) {
         List<ActivoFueraServicioDto> historial = obtenerHistorialDeFueraDeServicioPorActivo(code)
                 .orElse(Collections.emptyList());
 
         long totalSegundos = 0;
-
         for (ActivoFueraServicioDto dto : historial) {
-            if (dto.getInitial_date() != null && dto.getFinal_date() != null) {
+            try {
                 OffsetDateTime inicio = OffsetDateTime.parse(dto.getInitial_date());
-                OffsetDateTime fin = OffsetDateTime.parse(dto.getFinal_date());
+                OffsetDateTime fin = (dto.getFinal_date() != null) ?
+                        OffsetDateTime.parse(dto.getFinal_date()) : OffsetDateTime.now();
+
                 totalSegundos += Duration.between(inicio, fin).getSeconds();
-            } else if (dto.getInitial_date() != null) {
-                OffsetDateTime inicio = OffsetDateTime.parse(dto.getInitial_date());
-                OffsetDateTime ahora = OffsetDateTime.now();
-                totalSegundos += Duration.between(inicio, ahora).getSeconds();
-            }
+            } catch (DateTimeParseException ignored) {}
         }
 
-        String tiempoFormateado = formatoHorasMinutos(totalSegundos);
-
+        String tiempoFormateado = TiempoFueraServicioUtils.formatoHorasMinutos(totalSegundos);
         return Optional.of(new TotalTiempoFueraServicioDto(historial, tiempoFormateado));
     }
 
+    public Optional<TotalTiempoFueraServicioDto> obtenerHistorialFiltradoPorFechas(
+            String code, OffsetDateTime fechaInicio, OffsetDateTime fechaFin) {
 
+        List<ActivoFueraServicioDto> historialCompleto = obtenerHistorialDeFueraDeServicioPorActivo(code)
+                .orElse(Collections.emptyList());
 
+        List<ActivoFueraServicioDto> historialFiltrado = new ArrayList<>();
+        long totalSegundos = 0;
 
+        for (ActivoFueraServicioDto dto : historialCompleto) {
+            try {
+                OffsetDateTime inicio = OffsetDateTime.parse(dto.getInitial_date());
+                OffsetDateTime fin = (dto.getFinal_date() != null) ? OffsetDateTime.parse(dto.getFinal_date()) : OffsetDateTime.now();
 
-    private String formatoHorasMinutos(long segundosTotales) {
-        // División estricta sin redondeos para evitar errores de +1 minuto
-        long horas = (segundosTotales) / 3600;
-        long minutos = (segundosTotales % 3600) / 60;
+                boolean dentroDelRango = !(fin.isBefore(fechaInicio) || inicio.isAfter(fechaFin));
 
-        return String.format("%02d:%02d", horas, (--minutos) );
+                if (dentroDelRango) {
+                    historialFiltrado.add(dto);
+
+                    OffsetDateTime inicioReal = inicio.isBefore(fechaInicio) ? fechaInicio : inicio;
+                    OffsetDateTime finReal = fin.isAfter(fechaFin) ? fechaFin : fin;
+
+                    totalSegundos += Duration.between(inicioReal, finReal).getSeconds();
+                }
+            } catch (DateTimeParseException ignored) {}
+        }
+
+        String tiempoFormateado = TiempoFueraServicioUtils.formatoHorasMinutos(totalSegundos);
+        return Optional.of(new TotalTiempoFueraServicioDto(historialFiltrado, tiempoFormateado));
     }
+
+
+
+    /**
+     * Este método obtiene el historial de eventos en los que un activo estuvo fuera de servicio
+     * y calcula el tiempo total fuera de servicio dentro de un rango de fechas específico.
+     *
+     * @param code   El código del activo (por ejemplo, un identificador único del equipo).
+     * @param inicio Fecha de inicio del rango a evaluar (tipo LocalDate, sin hora).
+     * @param fin    Fecha de fin del rango a evaluar (tipo LocalDate, sin hora).
+     * @return Un Optional que contiene un DTO con la lista de eventos filtrados por rango
+     *         y el tiempo total fuera de servicio dentro de ese rango, en formato "hh:mm".
+     */
+    public Optional<TotalTiempoFueraServicioDto> obtenerHistorialYTotalTiempoPorActivoEnRango(
+            String code, LocalDate inicio, LocalDate fin) {
+
+        boolean debug = true; // Cambia a false para desactivar los prints
+
+        List<ActivoFueraServicioDto> historialCompleto = obtenerHistorialDeFueraDeServicioPorActivo(code)
+                .orElse(Collections.emptyList());
+
+        List<ActivoFueraServicioDto> historialFiltrado = new ArrayList<>();
+        long totalSegundos = 0;
+
+        for (ActivoFueraServicioDto dto : historialCompleto) {
+            try {
+                ZoneId zonaSantiago = ZoneId.of("America/Santiago");
+
+                OffsetDateTime inicioOffset = OffsetDateTime.parse(dto.getInitial_date());
+                ZonedDateTime inicioDto = inicioOffset.atZoneSameInstant(zonaSantiago);
+
+                ZonedDateTime finDto = (dto.getFinal_date() != null)
+                        ? OffsetDateTime.parse(dto.getFinal_date()).atZoneSameInstant(zonaSantiago)
+                        : ZonedDateTime.now(zonaSantiago);
+
+                ZonedDateTime inicioFiltro = inicio.atStartOfDay(zonaSantiago);
+                ZonedDateTime finFiltro = fin.atTime(23, 59, 59).atZone(zonaSantiago);
+
+                if (debug) {
+                    System.out.println("\n==================== EVENTO ====================");
+//                    System.out.println("ID: " + dto.getId());
+                    System.out.println("Initial_date (UTC): " + dto.getInitial_date());
+                    System.out.println("Final_date   (UTC): " + dto.getFinal_date());
+                    System.out.println("Initial_date (Chile): " + inicioDto);
+                    System.out.println("Final_date   (Chile): " + finDto);
+                    System.out.println("Rango filtro inicio (Chile): " + inicioFiltro);
+                    System.out.println("Rango filtro fin    (Chile): " + finFiltro);
+                }
+
+                if (finDto.isBefore(inicioFiltro) || inicioDto.isAfter(finFiltro)) {
+                    if (debug) System.out.println("Evento fuera del rango, se descarta.");
+                    continue;
+                }
+
+                ZonedDateTime realInicio = inicioDto.isBefore(inicioFiltro) ? inicioFiltro : inicioDto;
+                ZonedDateTime realFin = finDto.isAfter(finFiltro) ? finFiltro : finDto;
+
+                long segundosEventoEnRango = Duration.between(realInicio, realFin).getSeconds();
+
+                if (debug) {
+                    System.out.println("Inicio considerado: " + realInicio);
+                    System.out.println("Fin considerado:    " + realFin);
+                    System.out.println("Duración (seg):     " + segundosEventoEnRango);
+                    System.out.println("Duración (hh:mm):   " + TiempoFueraServicioUtils.formatoHorasMinutos(segundosEventoEnRango));
+                }
+
+                if (segundosEventoEnRango > 0) {
+                    dto.setTiempoEnRango(TiempoFueraServicioUtils.formatoHorasMinutos(segundosEventoEnRango));
+                    historialFiltrado.add(dto);
+                    totalSegundos += segundosEventoEnRango;
+                }
+
+            } catch (DateTimeParseException e) {
+                if (debug) {
+                    System.err.println("ERROR al parsear fechas del evento ID:");
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        String tiempoFormateado = TiempoFueraServicioUtils.formatoHorasMinutos(totalSegundos);
+        return Optional.of(new TotalTiempoFueraServicioDto(historialFiltrado, tiempoFormateado));
+    }
+
+
+
 }

@@ -1,60 +1,45 @@
 <!-- fragments/barra-superior.html -->
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
+<!-- fragments/barra-superior.html -->
+<div th:fragment="barraSuperior(totalFueraDeServicio, esHistorial, codigoActivo, totalTiempoFueraDeServicio)" class="barra-superior">
 
-    <div th:fragment="barraSuperior(totalFueraDeServicio, esHistorial)" class="barra-superior">
-
-    <!--  NO es historial -> Se muestra este contenedor sobre la tabla  -->
-      <div th:if="${!esHistorial}" class="contenedor-principal">
-        <!-- Primer bloque -->
-        <div class="bloque-izquierdo">
-          <div class="contenedor-total-fs">
-            <div class="etiqueta-fs">
-              Actualmente en caída operacional: <span th:text="${totalFueraDeServicio}" class="valor-fs"></span>
-            </div>
-          </div>
+  <div class="contenedor-principal">
+    <div class="bloque-izquierdo">
+      <div class="contenedor-total-fs">
+        <div class="etiqueta-fs" th:if="${!esHistorial}">
+          Actualmente en caída operacional:
+          <span th:text="${totalFueraDeServicio}" class="valor-fs"></span>
         </div>
 
-        <!-- Segundo bloque -->
-        <div class="bloque-derecho">
-          <form th:action="@{/ct/virgilio/inoperativos}" method="post" class="formulario-codigo">
-            <input type="text" id="code" name="code" placeholder="Código del activo" class="input-codigo" />
-            <button type="submit" class="btn">Historial</button>
-          </form>
+        <form th:if="${esHistorial}" th:action="@{/ct/virgilio/inoperativos}" method="get" style="margin-left: 1rem;">
+          <button type="submit" class="btn"><<< Volver</button>
+        </form>
+
+        <div class="etiqueta-fs" th:if="${esHistorial}">
+          Total tiempo fuera de servicio:
+          <span th:text="${totalTiempoFueraDeServicio}" class="valor-fs"></span> (HH:mm)
         </div>
       </div>
-
-
-
-      <!-- SI es historial -> Se muestra este contenedor sobre la tabla -->
-<!--      <div th:if="${esHistorial}" class="volver-historial">-->
-      <div th:if="${esHistorial}" class="contenedor-principal">
-        <div class="bloque-izquierdo">
-          <div class="contenedor-total-fs">
-              <!-- Botón "volver" -->
-              <form th:action="@{/ct/virgilio/inoperativos}" method="get">
-                <button type="submit" class="btn"><<< Volver</button>
-              </form>
-          </div>
-
-          <div th:if="${esHistorial}" style="margin-bottom: 10px; font-weight: bold; color: #333;">
-            Total tiempo fuera de servicio: <span th:text="${totalTiempoFueraDeServicio}">00:00</span> (HH:mm)
-          </div>
-
-        </div>
-
-
-        <!-- Segundo bloque -->
-        <div class="bloque-derecho">
-          <form th:action="@{/ct/virgilio/inoperativos}" method="post" class="formulario-codigo">
-            <input type="date" id="fecha_inicial" name="fecha_inicial" class="input-codigo" />
-            <input type="date" id="fecha_final" name="fecha_final" class="input-codigo" />
-            <button type="submit" class="btn">Buscar</button>
-          </form>
-        </div>
-      </div>
-
 
 
     </div>
 
-</html>
+    <div class="bloque-derecho">
+      <form th:if="${!esHistorial}" th:action="@{/ct/virgilio/inoperativos}" method="get" class="formulario-codigo">
+        <input type="text" id="code" name="code" placeholder="Código del activo" class="input-codigo" />
+        <button type="submit" class="btn">Historial</button>
+      </form>
+
+      <form th:if="${esHistorial}" th:action="@{/ct/virgilio/inoperativos/filtrar}" method="post" class="formulario-codigo">
+        <input type="hidden" name="code" th:value="${codigoActivo}" />
+        <input type="date" id="fecha_inicial" name="fecha_inicial"
+               th:value="${fechaInicial}" class="input-codigo" />
+        <input type="date" id="fecha_final" name="fecha_final"
+               th:value="${fechaFinal}" class="input-codigo" />
+        <button type="submit" class="btn">Buscar</button>
+      </form>
+
+    </div>
+  </div>
+
+</div>

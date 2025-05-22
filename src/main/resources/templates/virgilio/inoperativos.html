@@ -7,10 +7,8 @@
 <!-- Header -->
 <div th:replace="layout/base :: header"></div>
 
-<!-- Barra superior contiene div con formulario para historial y contenedor de cantidad de Activos FS
-     e inserta el contenedor correspondiente en caso que fuer historial o no fuera historial
-     Para discriminar cuál mostrar, desde aquí se le envía el boolean ${esHistorial}-->
-<div th:replace="fragments/barra-superior :: barraSuperior(${totalFueraDeServicio}, ${esHistorial})"></div>
+<!-- Barra superior -->
+<div th:replace="fragments/barra-superior :: barraSuperior(${totalFueraDeServicio}, ${esHistorial}, ${codigoActivo}, ${totalTiempoFueraDeServicio})"></div>
 
 <!-- Contenido principal: tabla -->
 <div style="flex: 1;">

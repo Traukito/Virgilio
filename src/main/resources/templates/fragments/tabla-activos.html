@@ -14,9 +14,10 @@
                 <th class="celda-encabezado columna-nombre">Nombre</th>
                 <th class="celda-encabezado">Desde</th>
                 <th th:if="${esHistorial}" class="celda-encabezado">Hasta</th>
-                <th class="celda-encabezado">HH:mm Transcurridos</th>
-                <th class="celda-encabezado">Estado</th>
-                <th th:if="${!esHistorial}" class="celda-encabezado">Historial</th>
+                <th class="celda-encabezado">Evento(HH:mm)</th>
+                <th th:if="${esHistorial}" class="celda-encabezado">Rango(HH:mm)</th>
+                <th class="celda-encabezado">Estado actual</th>
+                <th th:if="${!esHistorial}" class="celda-encabezado">Historial (SLA)</th>
             </tr>
         </thead>
         <tbody class="tabla-scroll">
@@ -27,6 +28,8 @@
                 <td th:text="${activo.initialDateFormateada}" class="celda-cuerpo" ></td>
                 <td th:if="${esHistorial}" th:text="${activo.finalDateFormateada}" class="celda-cuerpo"></td>
                 <td th:text="${activo.tiempoTranscurrido}" class="celda-cuerpo" ></td>
+                <td th:if="${esHistorial}" th:text="${activo.tiempoEnRango}" class="celda-cuerpo"></td>
+
 
                 <td class="celda-cuerpo">
                     <span th:if="${activo.final_date == null}">
