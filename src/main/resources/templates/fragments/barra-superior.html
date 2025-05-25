@@ -4,44 +4,47 @@
 <div th:fragment="barraSuperior(totalFueraDeServicio, esHistorial, codigoActivo, totalTiempoFueraDeServicio)" class="barra-superior">
 
   <div class="contenedor-principal">
+
     <!-- BLOQUE IZQUIERDO -->
     <div class="bloque-izquierdo">
       <div class="contenedor-total-fs">
-        <!-- Etiqueta de activos fuera de servicio -->
+
+        <!-- Etiqueta activos fuera de servicio -->
         <div class="etiqueta-fs" th:if="${!esHistorial}">
           Actualmente en caída operacional:
           <span th:text="${totalFueraDeServicio}" class="valor-fs"></span>
         </div>
 
-        <!-- Botón "Volver" si estamos en historial -->
+        <!-- Botón volver si es historial -->
         <form th:if="${esHistorial}" th:action="@{/ct/virgilio/inoperativos}" method="get" style="margin-left: 1rem;">
           <button type="submit" class="btn">Volver</button>
         </form>
 
-        <!-- Etiqueta de tiempo total fuera de servicio -->
+        <!-- Etiqueta total tiempo fuera de servicio -->
         <div class="etiqueta-fs" th:if="${esHistorial}">
           Total tiempo fuera de servicio:
           <span th:text="${totalTiempoFueraDeServicio}" class="valor-fs"></span> (HH:mm)
         </div>
+
       </div>
     </div>
+
+
 
     <!-- BLOQUE DERECHO -->
     <div class="bloque-derecho">
 
-      <!-- Si no es historial, mostramos búsqueda por código -->
+      <!-- Formulario de código si no es historial -->
       <form th:if="${!esHistorial}" th:action="@{/ct/virgilio/inoperativos}" method="get" class="formulario-codigo">
         <input type="text" id="code" name="code" placeholder="Código del activo" class="input-codigo" />
         <button type="submit" class="btn">Historial</button>
       </form>
 
-      <!-- Si es historial, mostramos filtros de fecha + botón refrescar -->
+      <!-- Si es historial, filtros de fecha -->
       <div th:if="${esHistorial}" class="formulario-codigo">
-
-        <!-- CONTENEDOR UNIFICADO: botón refrescar + filtros de fecha + botón buscar -->
         <div class="contenedor-fechas-botones">
 
-          <!-- Botón refrescar historial completo -->
+          <!-- Botón refrescar -->
           <form th:action="@{/ct/virgilio/inoperativos}" method="post">
             <input type="hidden" name="code" th:value="${codigoActivo}" />
             <button type="submit" class="btn" title="Refrescar historial completo">
@@ -54,13 +57,26 @@
             </button>
           </form>
 
-          <!-- Filtro por fechas + botón buscar -->
-          <form th:action="@{/ct/virgilio/inoperativos/filtrar}" method="post" class="formulario-fechas">
+          <!-- Filtro por fechas -->
+          <form th:action="@{/ct/virgilio/inoperativos/filtrar}" method="post"
+                th:object="${filtroFechasDto}" class="formulario-fechas">
+
             <input type="hidden" name="code" th:value="${codigoActivo}" />
-            <input type="date" id="fecha_inicial" name="fecha_inicial"
-                   th:value="${fechaInicial}" class="input-fecha" />
-            <input type="date" id="fecha_final" name="fecha_final"
-                   th:value="${fechaFinal}" class="input-fecha" />
+
+            <div class="grupo-campo">
+              <input type="date" id="fecha_inicial" th:field="*{fechaInicial}" class="input-fecha" />
+              <div th:if="${#fields.hasErrors('fechaInicial')}" class="error-mensaje">
+                <span th:errors="*{fechaInicial}"></span>
+              </div>
+            </div>
+
+            <div class="grupo-campo">
+              <input type="date" id="fecha_final" th:field="*{fechaFinal}" class="input-fecha" />
+              <div th:if="${#fields.hasErrors('fechaFinal')}" class="error-mensaje">
+                <span th:errors="*{fechaFinal}"></span>
+              </div>
+            </div>
+
             <button type="submit" class="btn">Buscar</button>
           </form>
 
@@ -68,5 +84,6 @@
       </div>
 
     </div>
+
   </div>
 </div>

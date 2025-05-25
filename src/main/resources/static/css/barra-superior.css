@@ -64,7 +64,7 @@
 /* Bloque de contenido alineado al lado derecho de la barra */
 .bloque-derecho {
   /* width: 28rem; */ /* Comentado posiblemente para pruebas. Puedes usarlo si prefieres una barra más estrecha. */
-  width: 48.5rem; /* Ancho fijo del bloque derecho: 40rem (bastante amplio) */
+  width: 50.5rem; /* Ancho fijo del bloque derecho: 40rem (bastante amplio) */
   text-align: right; /* Alinea el contenido interno hacia la derecha */
 }
 
@@ -157,6 +157,21 @@
    align-items: center;
    gap: 0.5rem;
  }
+
+ .error-mensaje {
+   color: #d93025;
+   font-size: 0.875rem;
+   margin-top: 0.25rem;
+   font-weight: 500;
+   padding-left: 0.25rem;
+ }
+
+ .grupo-campo {
+   display: flex;
+   flex-direction: column;
+   margin-right: 1rem;
+ }
+
 
 
 

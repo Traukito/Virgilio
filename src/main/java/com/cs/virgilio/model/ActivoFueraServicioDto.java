@@ -22,6 +22,11 @@ public class ActivoFueraServicioDto {
     private String tiempoEnRango; // formato "HH:mm"
 
 
+
+
+
+
+
     public String getInitialDateFormateada() {
         try {
             OffsetDateTime fechaUtc = OffsetDateTime.parse(initial_date);
